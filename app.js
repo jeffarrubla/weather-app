@@ -20,7 +20,13 @@ request({
 	url: `http://www.mapquestapi.com/geocoding/v1/address?key=jAr8wJxTbwFSTsm6qVA7HS13Cda8DUTi&location=${encodedAddress}`,
 	json: true
 }, (error, response, body) => {
-	console.log(`Address ${body.results[0].providedLocation.location}`);
-	console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
-	console.log(`Longitude: ${body.results[0].locations[0].latLng.lng}`);
+	if(error){
+		console.log('Unable to connect to servers.');
+	}else if( body.results[0].locations[0].street === '' ){
+		console.log('Address not found');
+	}else {
+		console.log(`Address ${body.results[0].providedLocation.location}`);
+		console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
+		console.log(`Longitude: ${body.results[0].locations[0].latLng.lng}`);
+	}
 });
