@@ -1,6 +1,7 @@
-/*const yargs = require('yargs');
+const yargs = require('yargs');
 
 const geocode = require('./geocode/geocode');
+const weather = require('./weather/weather');
 
 const argv = yargs
 	.options({
@@ -19,24 +20,16 @@ geocode.geocodeAddress(argv.address, (errorMessage,results)=> {
 	if( errorMessage ){
 		console.log(errorMessage);
 	}else{
-		console.log(JSON.stringify(results, undefined, 2));
+		console.log(results.address);
+		weather.getWeather(results.Latitude, results.Longitude, (errorMessage, weatherTemp) => {
+			if(errorMessage){
+				console.log(errorMessage);
+			}else{
+				console.log(`It's currently: ${weatherTemp.temperature}. It feels like ${weatherTemp.apparentTemperature}`);
+			}
+
+		});
 	}
 });
-*/
 
-const request = require('request');
 
-request({
-		url: `https://api.darksky.net/forecast/a008c9e0a5ff260ae4ecdd4e282d1f57/39.944401,-75.163136`,
-		json: true
-	}, (error, response, body) => {
-		if (!error && response.statusCode === 200){
-			console.log(body.currently.temperature);
-		} else if(error){
-			console.log('Unable to connecto to forecast.org');
-		}
-	});
-
-//https://api.darksky.net/forecast/a008c9e0a5ff260ae4ecdd4e282d1f57/39.944401,-75.163136
-
-//https://api.darksky.net/forecast/a008c9e0a5ff260ae4ecdd4e282d1f57/37.8267,-122.4233
